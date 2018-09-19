@@ -12,9 +12,11 @@ app.use(express.urlencoded({ extended: false }));
 const MongoClient = require("mongodb").MongoClient;
 const url = "mongodb://chris:chris6@ds163382.mlab.com:63382/todoapp2";
 
-//Use Public and Views Static Folders
+//Use Static Folders
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "views")));
+app.use(express.static(path.join(__dirname, "node_modules")));
+
 
 //Use EJS Template Engine
 app.set("view engine", "ejs");

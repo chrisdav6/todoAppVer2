@@ -8,6 +8,10 @@ const port = process.env.PORT || '3000';
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+//Setup MongoDB
+const MongoClient = require("mongodb").MongoClient;
+const url = "mongodb://localhost:27017/todoapp";
+
 //Use Public and Views Static Folders
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "views")));
@@ -17,10 +21,26 @@ app.set("view engine", "ejs");
 
 //Routes
 app.get("/", (req, res) => {
-  res.render("index");
+  Todos.find({}).toArray((err, todos) => {
+    if(err) {
+      return console.log(err);
+    }
+    res.render("index", { todos : todos });
+  });
 });
 
-//Start Server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+//Connect to MongoDB
+MongoClient.connect(url, (err, database) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log("Connected to DB");
+
+  const db = database.db("todoapp");
+  Todos = db.collection("todos");
+
+  //Start Server
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 });

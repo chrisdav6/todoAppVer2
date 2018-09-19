@@ -2,4 +2,8 @@
 
   <h1>Todo App</h1>
   
+  <% todos.forEach((todo) => { %>
+    <p><%= todo.text %></p>
+  <% }); %>
+  
 <%- include partials/footer.ejs %>

@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //Setup MongoDB
 const MongoClient = require("mongodb").MongoClient;
-const url = "mongodb://localhost:27017/todoapp";
+const url = "mongodb://chris:chris6@ds163382.mlab.com:63382/todoapp2";
 
 //Use Public and Views Static Folders
 app.use(express.static(path.join(__dirname, "public")));
@@ -36,7 +36,7 @@ MongoClient.connect(url, (err, database) => {
   }
   console.log("Connected to DB");
 
-  const db = database.db("todoapp");
+  const db = database.db("todoapp2");
   Todos = db.collection("todos");
 
   //Start Server

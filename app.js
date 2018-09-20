@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //Setup MongoDB
 const MongoClient = require("mongodb").MongoClient;
+const ObjectID = require("mongodb").ObjectID;
 const url = "mongodb://chris:chris6@ds163382.mlab.com:63382/todoapp2";
 
 //Use Static Folders
@@ -24,7 +25,7 @@ app.set("view engine", "ejs");
 //Routes
 
 //GET Index
-app.get("/", (req, res) => {
+app.get("/", (req, res, next) => {
   Todos.find({}).toArray((err, todos) => {
     if(err) {
       return console.log(err);
@@ -34,9 +35,31 @@ app.get("/", (req, res) => {
 });
 
 //POST add todo
-app.post("/todo/add", (req, res) => {
-  const { todoText, todoBody } = req.body;
-  res.redirect("/");
+app.post("/todo/add", (req, res, next) => {
+  const todo = {
+    text: req.body.todoText,
+    body: req.body.todoBody
+  };
+  //Insert todo to DB
+  Todos.insertOne(todo, (err, result) => {
+    if(err) {
+      return console.log(err);
+    }
+    console.log("Todo Added!");
+    res.redirect("/");
+  });
+});
+
+//DELETE delete todo
+app.delete("/todo/delete/:id", (req, res, next) => {
+  const query = {_id: ObjectID(req.params.id)};
+  Todos.deleteOne(query, (err, response) => {
+    if(err) {
+      return console.log(err);
+    }
+    console.log("Todo Deleted");
+    res.sendStatus(200);
+  });
 });
 
 //Connect to MongoDB

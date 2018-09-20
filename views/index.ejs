@@ -27,7 +27,7 @@
     </div>
   </section>
 
-  <section id="todos" class="py-5 text-center">
+  <section id="todos" class="py-5">
     <div class="container">
       <div class="row">
 
@@ -35,7 +35,11 @@
           <ul class="list-group">
             <% todos.forEach((todo) => { %>
               <li class="list-group-item d-flex">
-                <%= todo.text %> - <%= todo.body %>
+                <div> 
+                  <h4><%= todo.text %></h4>
+                  <p><%= todo.body %></p>
+                  <p class="mb-0"><small><%= todo.date %></small></p>
+                </div>
                 <div class="ml-auto">
                   <a href="/todo/edit/<%= todo._id %>" class="btn btn-info btn-sm text-light edit-todo">Edit</a> 
                   <a data-id="<%= todo._id %>" href="#" class="btn btn-danger btn-sm text-light delete-todo">Delete</a>

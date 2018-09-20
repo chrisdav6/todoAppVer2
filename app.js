@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mongodb = require("mongodb");
+const dateformat = require('dateformat');
 const app = express();
 const port = process.env.PORT || '3000';
 
@@ -36,9 +37,11 @@ app.get("/", (req, res, next) => {
 
 //POST add todo
 app.post("/todo/add", (req, res, next) => {
+  let now = new Date();
   const todo = {
     text: req.body.todoText,
-    body: req.body.todoBody
+    body: req.body.todoBody,
+    date: dateformat(now, "dddd, mmmm, dS, yyyy, h:MM:ss TT")
   };
   //Insert todo to DB
   if (todo.text === "" || todo.body === "") {

@@ -62,6 +62,33 @@ app.delete("/todo/delete/:id", (req, res, next) => {
   });
 });
 
+//GET edit todo form
+app.get("/todo/edit/:id", (req, res, next) => {
+  const query = { _id: ObjectID(req.params.id) };
+  Todos.find(query).next((err, todo) => {
+    if (err) {
+      return console.log(err);
+    }
+    res.render("edit", { todo: todo });
+  });
+});
+
+//POST edit todo
+app.post("/todo/edit/:id", (req, res, next) => {
+  const query = { _id: ObjectID(req.params.id) };
+  const todo = {
+    text: req.body.todoText,
+    body: req.body.todoBody
+  };
+
+  Todos.updateOne(query, {$set:todo}, (err, todo) => {
+    if (err) {
+      return console.log(err);
+    }
+    res.redirect("/");
+  });
+});
+
 //Connect to MongoDB
 MongoClient.connect(url, (err, database) => {
   if (err) {

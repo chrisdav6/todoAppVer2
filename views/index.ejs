@@ -35,7 +35,11 @@
           <ul class="list-group">
             <% todos.forEach((todo) => { %>
               <li class="list-group-item d-flex">
-                <%= todo.text %> - <%= todo.body %><a data-id="<%= todo._id %>" href="#" class="btn btn-danger btn-sm ml-auto text-light delete-todo">Delete</a>
+                <%= todo.text %> - <%= todo.body %>
+                <div class="ml-auto">
+                  <a href="/todo/edit/<%= todo._id %>" class="btn btn-info btn-sm text-light edit-todo">Edit</a> 
+                  <a data-id="<%= todo._id %>" href="#" class="btn btn-danger btn-sm text-light delete-todo">Delete</a>
+                </div>
               </li>
             <% }); %>
           </ul>

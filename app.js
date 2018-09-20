@@ -22,6 +22,8 @@ app.use(express.static(path.join(__dirname, "node_modules")));
 app.set("view engine", "ejs");
 
 //Routes
+
+//GET Index
 app.get("/", (req, res) => {
   Todos.find({}).toArray((err, todos) => {
     if(err) {
@@ -29,6 +31,12 @@ app.get("/", (req, res) => {
     }
     res.render("index", { todos : todos });
   });
+});
+
+//POST add todo
+app.post("/todo/add", (req, res) => {
+  const { todoText, todoBody } = req.body;
+  res.redirect("/");
 });
 
 //Connect to MongoDB

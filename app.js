@@ -41,13 +41,16 @@ app.post("/todo/add", (req, res, next) => {
     body: req.body.todoBody
   };
   //Insert todo to DB
-  Todos.insertOne(todo, (err, result) => {
-    if(err) {
-      return console.log(err);
-    }
-    console.log("Todo Added!");
+  if (todo.text === "" || todo.body === "") {
     res.redirect("/");
-  });
+  } else {
+    Todos.insertOne(todo, (err, result) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.redirect("/");
+    });
+  }
 });
 
 //DELETE delete todo
